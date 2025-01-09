@@ -3,7 +3,6 @@ package org.example.gmailwithoauth.gmail;
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -176,10 +175,11 @@ public class GmailAPIProvider {
         HttpEntity<GmailCredential> entity = new HttpEntity(gmailCredentialsDto);
 
         try {
-            CustomTokenResponse response = restTemplate.postForObject(
+            CustomTokenResponseDto response = restTemplate.postForObject(
                     "https://www.googleapis.com/oauth2/v4/token",
                     entity,
-                    CustomTokenResponse.class);
+                    CustomTokenResponseDto.class);
+
             gmailCredential = new GmailCredential(
                     clientId,
                     secretKey,
@@ -188,7 +188,7 @@ public class GmailAPIProvider {
                     response.getAccessToken(),
                     fromEmail
             );
-            return response;
+            return response.toGoogleTokenResponse();
 
         } catch (Exception e) {
             e.printStackTrace();
