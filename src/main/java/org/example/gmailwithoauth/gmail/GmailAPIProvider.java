@@ -35,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+// GmailAPIProvider
 @Slf4j
 @Component
 public class GmailAPIProvider {
@@ -68,6 +69,16 @@ public class GmailAPIProvider {
 
     }
 
+    /**
+     * Sending Email using Gmail API
+     * @param recipientEmail Email receiver's email account
+     * @param subject Title of the mail
+     * @param body Main content of the mail
+     * @param attachment File which is attached into email
+     * @return true if sending mail is successful
+     * @throws MessagingException when creating mail is not successful
+     * @throws IOException when sending email is not successful
+     */
     public boolean sendMessage(String recipientEmail, String subject, String body, MultipartFile attachment)
             throws MessagingException, IOException {
         refreshAccessToken();
